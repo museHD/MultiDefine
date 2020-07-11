@@ -1,19 +1,4 @@
-import grequests
-from requests import get
-from requests.exceptions import RequestException
-from contextlib import closing
-# from bs4 import BeautifulSoup
-# import pickle
-import time
-from selenium import webdriver
 import pyfiglet
-from selenium.webdriver.chrome.options import Options
-import sys
-import os
-
-
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as ec
 
 # INFO
 print("---------------------------------------------------------------------------------------------------------------------------------")
@@ -22,12 +7,25 @@ print("-------------------------------------------------------------------------
 print("- Enter a list of words and this program will return their definitions from Google, Wikipedia or Oxford - Whichever \nis available(in that order)")
 print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs")
 print()
-print("Alpha version 0.2.2")
-print("This version contains a more robust and faster collection method + a rerun program option.")
+print("Alpha version 0.2.3")
+print("This version has been optimised to increase speed and contains a more robust collection method + a fixed rerun program option.")
 print("Developled by museHD")
 print("---------------------------------------------------------------------------------------------------------------------------------")
 print("Loading Browser...Please wait")
 print()
+
+# Don't need these libraries since we are using selenium
+
+# import grequests
+# from requests import get
+# from requests.exceptions import RequestException
+# from contextlib import closing
+# from bs4 import BeautifulSoup
+# import pickle
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import sys
+import os
 
 # Loading Driver into pyinstaller dir for the exe
 if getattr(sys, 'frozen', False) :
@@ -40,6 +38,7 @@ else:
 options = Options()
 chromedriver_path = os.path.join(base_dir, 'chromedriver.exe')
 # driver = webdriver.Firefox(executable_path="D:/PROGRAMMING/PYTHON SCIRPTS/FILES/geckodriver.exe")
+# Chromedriver seems to be faster than firefox 
 options.headless = True
 #To stop the "Now listening on xxxx" logs
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -206,6 +205,9 @@ def main():
 		exitcon = input("Press any key to go again or type 'exit' or 'quit' to close the program: ")
 		if exitcon == 'quit' or exitcon == 'exit':
 			loopon = False
+			driver.close()
+			sys.exit(0)
+			quit()
 		else:
 			print("Running Again!")
 			print()

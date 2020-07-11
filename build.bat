@@ -1,1 +1,1 @@
-START pyinstaller --onefile --add-binary 'D:\PROGRAMMING\PYTHON SCIRPTS\Scrapers\chromedriver.exe;.' --add-data "C:\Program Files (x86)\Python37-32\Lib\site-packages\pyfiglet;./pyfiglet" vocab_list.py
+START pyinstaller --onefile --add-binary 'D:\PROGRAMMING\PYTHON SCIRPTS\Scrapers\Vocab List Gen\Vocab-List-Gen\chromedriver.exe;.' --add-data "C:\Program Files (x86)\Python37-32\Lib\site-packages\pyfiglet;./pyfiglet" vocab_list.py

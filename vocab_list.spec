@@ -4,8 +4,8 @@ block_cipher = None
 
 
 a = Analysis(['vocab_list.py'],
-             pathex=['D:\\PROGRAMMING\\PYTHON SCIRPTS\\Scrapers'],
-             binaries=[('D:\\PROGRAMMING\\PYTHON SCIRPTS\\Scrapers\\chromedriver.exe', '.')],
+             pathex=['D:\\PROGRAMMING\\PYTHON SCIRPTS\\Scrapers\\Vocab List Gen\\Vocab-List-Gen'],
+             binaries=[('D:\\PROGRAMMING\\PYTHON SCIRPTS\\Scrapers\\Vocab List Gen\\Vocab-List-Gen\\chromedriver.exe', '.')],
              datas=[('C:\\Program Files (x86)\\Python37-32\\Lib\\site-packages\\pyfiglet', './pyfiglet')],
              hiddenimports=[],
              hookspath=[],
