@@ -1,2 +1,2 @@
-# Vocab List Gen
- Creates a vocabulary list
+# Vocabulary List Generator
+📝Compiles the definitions of multiple words into a single list
