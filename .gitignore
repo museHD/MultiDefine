@@ -1,0 +1,6 @@
+# Ignore pyinstaller build dirs
+
+__pycache__/
+build/
+dist/
+vocab_list.spec
