@@ -5,7 +5,7 @@ print("-------------------------------------------------------------------------
 print(pyfiglet.figlet_format("Vocab List \n Generator"))
 print("---------------------------------------------------------------------------------------------------------------------------------")
 print("- Enter a list of words and this program will return their definitions from Google, Wikipedia or Oxford - Whichever \nis available(in that order)")
-print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs")
+print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs :)")
 print()
 print("Alpha version 0.2.4")
 print("This version has been updated to the latest ChromeDriver version + HUGE fix for retrieving info from Wikipedia.")
@@ -23,6 +23,8 @@ print()
 # from contextlib import closing
 # from bs4 import BeautifulSoup
 # import pickle
+
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import sys
@@ -125,26 +127,29 @@ def get_ans():
 					defs.append(span.text)
 					print(span.text)
 			except:
+				#If google fails, it goes to oxford dictionary to find the definition
 				try:
-					#--- Fixed in "optimise-wp" branch - changed it from volatile xpath to stable (??) class and tag names. Safeguarded it to prevent outputting blank answers
-					# This is the one that checks Wikipedia text on the right hand side
-					wiki_sector = driver.find_element_by_class_name("kp-wholepage")
-					descs = wiki_sector.find_elements_by_tag_name("span")
-					for desc in descs:
-						if len(desc.text)>10:
-							if (desc.text.lower()) != query.lower(): 
-								print(desc.text)
-					defs.append(desc)
+					driver.get((oxford+str(query)))		
+					span = driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/section[1]/ul/li/div/p/span[2]")
+					if span.text is not None and len(span.text) > 0:
+						#print('plana')
+						defs.append(span.text)
+						print(span.text)
 
 				except:	
-					#If google fails, it goes to oxford dictionary to find the definition
+
 					try:
-						driver.get((oxford+str(query)))		
-						span = driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/section[1]/ul/li/div/p/span[2]")
-						if span.text is not None and len(span.text) > 0:
-							#print('plana')
-							defs.append(span.text)
-							print(span.text)
+						driver.get((google+str("define " + query)))	
+						#--- Fixed in "optimise-wp" branch - changed it from volatile xpath to stable (??) class and tag names. Safeguarded it to prevent outputting blank answers
+						# This is the one that checks Wikipedia text on the right hand side
+						wiki_sector = driver.find_element_by_class_name("kp-wholepage")
+						descs = wiki_sector.find_elements_by_tag_name("span")
+						for desc in descs:
+							if len(desc.text)>10:
+								if (desc.text.lower()) != query.lower(): 
+									print(desc.text)
+						defs.append(desc)
+
 					except:
 
 						# uSeFuL eRrOr mSg LmAo
