@@ -34,12 +34,15 @@ if getattr(sys, 'frozen', False) :
 else:
     # running normally
     base_dir = os.path.dirname(os.path.abspath(__file__))
+
 #Driver options
 options = Options()
 chromedriver_path = os.path.join(base_dir, 'chromedriver.exe')
+options.headless = True
+
 # driver = webdriver.Firefox(executable_path="D:/PROGRAMMING/PYTHON SCIRPTS/FILES/geckodriver.exe")
 # Chromedriver seems to be faster than firefox 
-options.headless = True
+
 #To stop the "Now listening on xxxx" logs
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
