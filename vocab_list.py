@@ -95,7 +95,7 @@ def get_ans():
 		print(queries[index] + ': ', end='')
 		query.strip()
 		#driver.get(page)
-		driver.get((google+str("define:" + query)))	
+		driver.get((google+str("define " + query)))	
 
 		#for ans in driver.find_elements_by_xpath('/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div'):
 		try:
