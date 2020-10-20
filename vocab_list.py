@@ -122,9 +122,15 @@ def get_ans():
 					print(span.text)
 			except:
 				try:
+					#--- Fixed in "optimise-wp" branch - changed it from volatile xpath to stable (??) class and tag names. Safeguarded it to prevent outputting blank answers
 					# This is the one that checks Wikipedia text on the right hand side
-					print(driver.find_element_by_xpath("/html/body/div[6]/div[2]/div[9]/div[1]/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/div/div[1]/div/div/div/div/span[1]").text)
-					defs.append(driver.find_element_by_xpath('/html/body/div[6]/div[2]/div[9]/div[1]/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/div/div[1]/div/div/div/div/span[1]').text)
+					wiki_sector = driver.find_element_by_class_name("kp-wholepage")
+					descs = wiki_sector.find_elements_by_tag_name("span")
+					for desc in descs:
+						if len(desc.text)>10:
+							if (desc.text.lower()) != query.lower(): 
+								print(desc.text)
+					defs.append(desc)
 
 				except:	
 					#If google fails, it goes to oxford dictionary to find the definition
