@@ -24,9 +24,10 @@ print()
 # from bs4 import BeautifulSoup
 # import pickle
 
-
+import update
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import SessionNotCreatedException
 import sys
 import os
 
@@ -48,7 +49,15 @@ options.headless = True
 
 #To stop the "Now listening on xxxx" logs
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
-driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
+try:
+	driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
+except SessionNotCreatedException:
+	update.update_chromedriver()
+	driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
+else:
+	print("Unable to create a web session")
+	# sys.exit()
+
 
 #Base URLS + intialising lists
 oxford = "https://www.lexico.com/en/definition/"
