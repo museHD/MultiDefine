@@ -4,3 +4,4 @@ __pycache__/
 build/
 dist/
 vocab_list.spec
+build.bat
