@@ -1,4 +1,4 @@
-# Ignore pyinstaller build dirs
+# Ignore pyinstaller build dirs and build script
 
 __pycache__/
 build/
