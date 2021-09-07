@@ -14,8 +14,8 @@ The program uses the following libraries:
 <br>
 The libraries have been taken care of in the <a href="https://github.com/museHD/Vocab-List-Gen/releases">exe release</a>
 <br><br>
-However, all users will need to have the **matching/compatible** versions of Google Chrome and [Chromedriver](https://chromedriver.chromium.org/)  installed.
-Eg. If you have Chrome 86, download the ChromeDriver v86 from the above link.
+However, all users will need to get the **matching/compatible** versions of Google Chrome and [Chromedriver](https://chromedriver.chromium.org/). Make sure that the chromedriver.exe file is in the same directory as the application.
+Eg. If you have Chrome 86, download the ChromeDriver v86 from the above link and place the exe in the same directory as this program.
 <br>
 <br>
 <br>
