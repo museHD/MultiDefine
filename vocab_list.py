@@ -187,6 +187,7 @@ def get_ans():
 		print("The following words may need to be manually searched: ")
 		for word in error_list:
 			print(word)
+		error_list.clear()
 
 
 
