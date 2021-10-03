@@ -154,9 +154,8 @@ def get_ans():
 						wiki_sector = driver.find_element_by_class_name("kp-wholepage")
 						descs = wiki_sector.find_elements_by_tag_name("span")
 						for desc in descs:
-							if len(desc.text)>10:
-								if (desc.text.lower()) != query.lower(): 
-									print(desc.text)
+							if len(desc.text)>10 and (desc.text.lower()) != query.lower():
+								print(desc.text)
 						defs.append(desc)
 
 					except:
@@ -167,9 +166,9 @@ def get_ans():
 						print("I can't find your word... \n Please make sure that the computer has an active internet connection and retry.\nIf all else fails, call the developer for help if this issue is recurring")
 		try:
 			# This part still broken - need to figure out how to fix About Featured Snippets
-			if ("..." or '' or ' ' or "About Featured Snippets") in defs[(len(defs)-1)]:
+			if ("..." or '' or ' ' or "About Featured Snippets") in defs[-1]:
 				error_list.append(queries[index])
-			elif defs[(len(defs)-1)] == (None or False):
+			elif defs[-1] == (None or False):
 				error_list.append(queries[index]) 
 		except:
 			pass
@@ -228,7 +227,7 @@ def main():
 		print("Finished!")
 		print()
 		exitcon = input("Press any key to go again or type 'exit' or 'quit' to close the program: ")
-		if exitcon == 'quit' or exitcon == 'exit':
+		if exitcon in ('quit', 'exit'):
 			loopon = False
 			driver.close()
 			sys.exit(0)
