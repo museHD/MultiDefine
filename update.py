@@ -15,7 +15,7 @@ def update_chromedriver():
 
     print("Downloading chromedriver version " + str(version_number))
     # download the zip file using the url built above
-    latest_driver_zip = wget.download(download_url,'chromedriver.zip')
+    latest_driver_zip = wget.download(download_url,'Vocab-List-Gen/chromedriver.zip')
 
     # extract the zip file
     with zipfile.ZipFile(latest_driver_zip, 'r') as zip_ref:
@@ -23,3 +23,5 @@ def update_chromedriver():
     # delete the zip file downloaded above
     os.remove(latest_driver_zip)
     print("\nDownload Complete")
+    os.remove('Vocab-List-Gen\chromedriver.exe')
+    os.replace('chromedriver.exe','Vocab-List-Gen\chromedriver.exe')
