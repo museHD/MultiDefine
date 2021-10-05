@@ -27,17 +27,17 @@ print()
 import update
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import SessionNotCreatedException
+from selenium.common.exceptions import SessionNotCreatedException, WebDriverException
 import sys
 import os
 
-# Loading Driver into pyinstaller dir for the exe
-if getattr(sys, 'frozen', False) :
-    # running in a bundle
-    base_dir = sys._MEIPASS
-else:
-    # running normally
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+# # Loading Driver into pyinstaller dir for the exe
+# if getattr(sys, 'frozen', False) :
+#     # running in a bundle
+#     base_dir = sys._MEIPASS
+# else:
+#     # running normally
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 #Driver options
 options = Options()
@@ -51,12 +51,12 @@ options.headless = True
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 try:
 	driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
-except SessionNotCreatedException:
+except (SessionNotCreatedException, WebDriverException):
 	update.update_chromedriver()
 	driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
 else:
-	print("Unable to create a web session")
-	# sys.exit()
+	print("Ready!")
+	# print when no exception
 
 
 #Base URLS + intialising lists
