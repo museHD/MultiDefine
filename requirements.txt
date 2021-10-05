@@ -1,0 +1,4 @@
+pyfiglet==0.8.post1
+requests==2.26.0
+selenium==3.141.0
+wget==3.2

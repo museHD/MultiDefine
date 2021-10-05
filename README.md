@@ -3,6 +3,13 @@
 ## Description:
 📝This program queries Google, WikiPedia and Oxford Dictionary for the definitions of multiple words and compiles these definitions into a single "vocabulary" list
 
+## Installation
+Open cmd 
+``` 
+cd <PATH FOR INSTALLATION>
+git clone https://github.com/museHD/Vocab-List-Gen
+pip install -r requirements.txt
+```
 ## Usage:
 Simply enter words separated by commas into the program and it will return the list of words and the top definition for each word.
 
