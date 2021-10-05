@@ -31,12 +31,6 @@ from selenium.common.exceptions import SessionNotCreatedException, WebDriverExce
 import sys
 import os
 
-# # Loading Driver into pyinstaller dir for the exe
-# if getattr(sys, 'frozen', False) :
-#     # running in a bundle
-#     base_dir = sys._MEIPASS
-# else:
-#     # running normally
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
 #Driver options
@@ -66,37 +60,6 @@ pages = []
 defs = []
 queries = []
 error_list = []
-
-# Redundant Get Requests
-def simple_get(url):
-
-	try:
-		with closing(get(url, stream=True)) as resp:
-			if is_good_response(resp):
-				return resp.content
-			else:
-				return None
-
-	except RequestException as e:
-		log_error('Could not connect to {0} : {1}' .format(url, str(e)))
-		return None
-
-def is_good_response(resp):
-	content_type = resp.headers['Content-Type'].lower()
-	return (resp.status_code == 200 
-			and content_type is not None
-			and content_type.find('html')>-1)
-
-
-
-
-#Redundant Page gen - because we are using selenium
-def gen_pages():
-	global pages, queries
-	for i in queries:
-		pages.append(str(google + i ))
-	print("Pages are compiled")
-	#print(pages)
 
 
 def get_ans():
