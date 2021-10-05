@@ -22,6 +22,6 @@ def update_chromedriver():
         zip_ref.extractall() # you can specify the destination folder path here
     # delete the zip file downloaded above
     os.remove(latest_driver_zip)
-    print("\nDownload Complete")
     os.remove(r'Vocab-List-Gen\chromedriver.exe')
     os.replace('chromedriver.exe' , r'Vocab-List-Gen\chromedriver.exe')
+    print("\nDownload Complete")
