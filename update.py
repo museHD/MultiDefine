@@ -24,4 +24,4 @@ def update_chromedriver():
     os.remove(latest_driver_zip)
     print("\nDownload Complete")
     os.remove(r'Vocab-List-Gen\chromedriver.exe')
-    os.replace('chromedriver.exe',r'Vocab-List-Gen\chromedriver.exe') 
+    os.replace('chromedriver.exe' , r'Vocab-List-Gen\chromedriver.exe')
