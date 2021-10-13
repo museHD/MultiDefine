@@ -1,57 +1,41 @@
 import pyfiglet
 
-# INFO
-print("---------------------------------------------------------------------------------------------------------------------------------")
-print(pyfiglet.figlet_format("Vocab List \n Generator"))
-print("---------------------------------------------------------------------------------------------------------------------------------")
-print("- Enter a list of words and this program will return their definitions from Google, Oxford or Wikipedia - Whichever \nis available(in that order)")
-print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs :)")
-print()
-print("Alpha version 0.2.5")
-print("This version now comes with an update feature that automatically updates chromedriver to the latest version.")
-print()
-print("Developled by museHD @ https://github.com/musehd/vocab-list-gen")
-print("---------------------------------------------------------------------------------------------------------------------------------")
-print("Loading Browser...Please wait")
-print()
+def info():
+	print("---------------------------------------------------------------------------------------------------------------------------------")
+	print(pyfiglet.figlet_format("Vocab List \n Generator"))
+	print("---------------------------------------------------------------------------------------------------------------------------------")
+	print("- Enter a list of words and this program will return their definitions from Google, Oxford or Wikipedia - Whichever \nis available(in that order)")
+	print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs :)")
+	print()
+	print("Alpha version 0.2.5")
+	print("This version now comes with an update feature that automatically updates chromedriver to the latest version.")
+	print()
+	print("Developled by museHD @ https://github.com/musehd/vocab-list-gen")
+	print("---------------------------------------------------------------------------------------------------------------------------------")
+	print("Loading Browser...Please wait")
+	print()
 
-# Don't need these libraries since we are using selenium
-
-# import grequests
-# from requests import get
-# from requests.exceptions import RequestException
-# from contextlib import closing
-# from bs4 import BeautifulSoup
-# import pickle
-
-import update
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import SessionNotCreatedException, WebDriverException
 import sys
-import os
-
-base_dir = os.path.dirname(os.path.abspath(__file__))
 
 #Driver options
 options = Options()
-chromedriver_path = os.path.join(base_dir, 'chromedriver.exe')
-options.headless = True
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+options.add_argument("--disable-logging")
+options.add_argument("--disable-crash-reporter")
+options.add_argument("--disable-extensions")
+options.add_argument("--disable-in-process-stack-traces")
+options.add_argument("--disable-logging")
+options.add_argument("--log-level=3")
+options.add_argument("--output=/dev/null")
+options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
-# driver = webdriver.Firefox(executable_path="D:/PROGRAMMING/PYTHON SCIRPTS/FILES/geckodriver.exe")
-# Chromedriver seems to be faster than firefox 
 
-#To stop the "Now listening on xxxx" logs
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
-try:
-	driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
-except (SessionNotCreatedException, WebDriverException):
-	update.update_chromedriver()
-	driver = webdriver.Chrome(executable_path=chromedriver_path,options=options)
-else:
-	print("Ready!")
-	# print when no exception
-
+driver = webdriver.Chrome(options=options)
 
 #Base URLS + intialising lists
 oxford = "https://www.lexico.com/en/definition/"
@@ -64,15 +48,13 @@ error_list = []
 
 def get_ans():
 	global pages, defs, queries, error_list
-	print("Getting Answers")
-	print()
+	print("\nGetting Answers\n")
 
-#	if single_def == True:
 	for query in queries:
-		index = queries.index(query)
-		print(queries[index] + ': ', end='')
-		query.strip()
-		#driver.get(page)
+		#capitalized so that looks pretty while printing on the screen
+		query = query.strip().capitalize()
+		print(query + ': ', end='')
+
 		driver.get((google+str("define " + query)))	
 
 		#for ans in driver.find_elements_by_xpath('/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div'):
@@ -124,15 +106,15 @@ def get_ans():
 					except:
 
 						# uSeFuL eRrOr mSg LmAo
-						error_list.append(queries[index])
+						error_list.append(query)
 						print()
 						print("I can't find your word... \n Please make sure that the computer has an active internet connection and retry.\nIf all else fails, call the developer for help if this issue is recurring")
 		try:
 			# This part still broken - need to figure out how to fix About Featured Snippets
 			if ("..." or '' or ' ' or "About Featured Snippets") in defs[-1]:
-				error_list.append(queries[index])
+				error_list.append(query)
 			elif defs[-1] == (None or False):
-				error_list.append(queries[index]) 
+				error_list.append(query) 
 		except:
 			pass
 		try:
@@ -174,6 +156,8 @@ def main():
 	while loopon == True:
 		global queries
 		words = input("Enter words separated by commas: ")
+		if words == '':
+			continue
 		#Trying to fix user input and removing newliens so that it doesn't break
 		words = words.replace('\n',',')
 		words = words.replace('\t',',')
@@ -192,15 +176,15 @@ def main():
 		exitcon = input("Press any key to go again or type 'exit' or 'quit' to close the program: ")
 		if exitcon in ('quit', 'exit'):
 			loopon = False
-			driver.close()
+			driver.quit()
 			sys.exit(0)
 			quit()
 		else:
-			print("Running Again!")
-			print()
+			print("Running Again!\n")
 
 
+info()
 # Main thing where we call everything
 main()
-driver.close()
+driver.quit()
 sys.exit(0)
