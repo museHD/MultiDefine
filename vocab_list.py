@@ -1,4 +1,9 @@
 import pyfiglet
+import json
+from urllib.request import urlopen
+import urbandict
+from textblob import TextBlob
+
 
 def info():
 	print("---------------------------------------------------------------------------------------------------------------------------------")
@@ -40,6 +45,7 @@ driver = webdriver.Chrome(options=options)
 #Base URLS + intialising lists
 oxford = "https://www.lexico.com/en/definition/"
 google = "https://google.com/search?q="
+dic_api = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 pages = []
 defs = []
 queries = []
@@ -51,104 +57,114 @@ def get_ans():
 	print("\nGetting Answers\n")
 
 	for query in queries:
-		#capitalized so that looks pretty while printing on the screen
+		# capitalized so that looks pretty while printing on the screen
 		query = query.strip().capitalize()
 		print(query + ': ', end='')
 
-		driver.get((google+str("define " + query)))	
-
-		#for ans in driver.find_elements_by_xpath('/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div'):
+		# First get the definition through API, if it doesn't exist then move on with scrapping
 		try:
-			# Google displays text with style=display:inline so this searches for that specific style and picks ONLY the first ones as there are often multiple definitions
-			span = driver.find_element_by_class_name('vmod')
-			division = span.find_element_by_xpath("//*[@style='display:inline']").text
-			xdivision = division.split("\n")
-			print(xdivision[0])
+			response = urlopen(dic_api+query)
+			data = json.loads(response.read())
+			meanings = data[0]['meanings']
 
-			if xdivision[0] is not None and len(xdivision[0]) > 0:
-				defs.append(xdivision[0])
-			# Bunch of Failsafes: First it checks the definition tab; if not, it checks the wikipedia page text on the right hand side; if not, it just gets the text description from the first website
+			i = 1
+			for meaning in meanings:
+				print(str(i)+') '+(meaning['definitions'][0]['definition']).capitalize())
+				i = i+1
+
+			print()
+			#continue if found the meaning
+			continue
+
 		except:
+
+			driver.get((google+str("define " + query)))	
+
+			#for ans in driver.find_elements_by_xpath('/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div'):
 			try:
-				try:
-					# Pretty sure this one's broken because google keeps changing the xpath of the def.
-					span = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div/div[1]/div/div/div[1]/span")
-				except:
-					# Text description from first website on Google
-					span = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div[2]/div/span")
-					
-				if span.text is not None and len(span.text) > 0:
-					defs.append(span.text)
-					print(span.text)
+				# Google displays text with style=display:inline so this searches for that specific style and picks ONLY the first ones as there are often multiple definitions
+				span = driver.find_element_by_class_name('vmod')
+				division = span.find_element_by_xpath("//*[@style='display:inline']").text
+				xdivision = division.split("\n")
+				print(xdivision[0])
+
+				if xdivision[0] is not None and len(xdivision[0]) > 0:
+					defs.append(xdivision[0])
+				# Bunch of Failsafes: First it checks the definition tab; if not, it checks the wikipedia page text on the right hand side; if not, it just gets the text description from the first website
 			except:
-				#If google fails, it goes to oxford dictionary to find the definition
 				try:
-					driver.get((oxford+str(query)))		
-					span = driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/section[1]/ul/li/div/p/span[2]")
+					try:
+						# Pretty sure this one's broken because google keeps changing the xpath of the def.
+						span = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div/div[1]/div/div/div[1]/span")
+					except:
+						# Text description from first website on Google
+						span = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div[2]/div/span")
+						
 					if span.text is not None and len(span.text) > 0:
-						#print('plana')
 						defs.append(span.text)
 						print(span.text)
-
-				except:	
-
+				except:
+					#If google fails, it goes to oxford dictionary to find the definition
 					try:
-						driver.get((google+str("define " + query)))	
-						#--- Fixed in "optimise-wp" branch - changed it from volatile xpath to stable (??) class and tag names. Safeguarded it to prevent outputting blank answers
-						# This is the one that checks Wikipedia text on the right hand side
-						wiki_sector = driver.find_element_by_class_name("kp-wholepage")
-						descs = wiki_sector.find_elements_by_tag_name("span")
-						for desc in descs:
-							if len(desc.text)>10 and (desc.text.lower()) != query.lower():
-								print(desc.text)
-						defs.append(desc)
+						driver.get((oxford+str(query)))		
+						span = driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/section[1]/ul/li/div/p/span[2]")
+						if span.text is not None and len(span.text) > 0:
+							#print('plana')
+							defs.append(span.text)
+							print(span.text)
 
-					except:
+					except:	
 
-						# uSeFuL eRrOr mSg LmAo
-						error_list.append(query)
-						print()
-						print("I can't find your word... \n Please make sure that the computer has an active internet connection and retry.\nIf all else fails, call the developer for help if this issue is recurring")
-		try:
-			# This part still broken - need to figure out how to fix About Featured Snippets
-			if ("..." or '' or ' ' or "About Featured Snippets") in defs[-1]:
-				error_list.append(query)
-			elif defs[-1] == (None or False):
-				error_list.append(query) 
-		except:
-			pass
-		try:
-			#Removing 'None' or Null entries
-			defs.remove('')
-		except:
-			pass
-		defs = list(filter(None, defs))
-		defs = set(defs)
-		defs = list(defs)
-		print()
+						try:
+							driver.get((google+str("define " + query)))	
+							#--- Fixed in "optimise-wp" branch - changed it from volatile xpath to stable (??) class and tag names. Safeguarded it to prevent outputting blank answers
+							# This is the one that checks Wikipedia text on the right hand side
+							wiki_sector = driver.find_element_by_class_name("kp-wholepage")
+							descs = wiki_sector.find_elements_by_tag_name("span")
+							for desc in descs:
+								if len(desc.text)>10 and (desc.text.lower()) != query.lower():
+									print(desc.text)
+							defs.append(desc)
+
+						except:
+
+							# uSeFuL eRrOr mSg LmAo
+							error_list.append(query)
+							print()
+							print("I can't find your word... \nPlease make sure that the computer has an active internet connection and retry.\nIf all else fails, call the developer for help if this issue is recurring")
+			try:
+				# This part still broken - need to figure out how to fix About Featured Snippets
+				if ("..." or '' or ' ' or "About Featured Snippets") in defs[-1]:
+					error_list.append(query)
+				elif defs[-1] == (None or False):
+					error_list.append(query) 
+			except:
+				pass
+			try:
+				#Removing 'None' or Null entries
+				defs.remove('')
+			except:
+				pass
+			defs = list(filter(None, defs))
+			defs = set(defs)
+			defs = list(defs)
+			print()
+
+	#Trying Urbandict on error_list
+	for er in list(error_list):
+		j = 1
+		for meaning in urbandict.define(er):
+			print(str(j) + ") " + meaning['def'])
+			j = j+1
+		error_list.remove(er)
+
+
 	if len(error_list) > 0:
 		#print Words that need to be manually searched
 		print("The following words may need to be manually searched: ")
 		for word in error_list:
 			print(word)
 		error_list.clear()
-
-
-
-#	if single_def == False:
-#		for page in pages:
-#			index = pages.index(page)
-#			print(queries[index] + ': ', end='')
-#			driver.get(page)
-#			for ans in driver.find_elements_by_xpath('/html/body/div[6]/div[2]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div[1]/div/span/div/div/div[3]/div/div[4]/div/div/ol/li/div/div'):
-#
-#				abc = ''
-#				for span in ans.find_elements_by_xpath(".//span"):
-#					defs.append(span.text)
-#					print(span.text,end='')
-#			defs.remove('')
-#			defs = list(filter(None, defs))
-#		print()
 
 
 def main():
@@ -158,17 +174,18 @@ def main():
 		words = input("Enter words separated by commas: ")
 		if words == '':
 			continue
+
+		#Attempting spellcheck
+		words = TextBlob(words)
+		words = words.correct()
+		words = str(words)
+
 		#Trying to fix user input and removing newliens so that it doesn't break
 		words = words.replace('\n',',')
 		words = words.replace('\t',',')
 		words = words.rstrip("\n")
 		queries = words.split(',')
-		#Redundant - Multiple definitions feature:
-		#n = input("Would you like a single definition? y/n: ")
-		#if n != 'y' or 'n':
-		#	print("Please retry with either 'y' or 'n' ")
-		#	main()
-		#gen_pages()
+
 		get_ans()
 		print()
 		print("Finished!")
