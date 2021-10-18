@@ -194,7 +194,6 @@ def main():
 			loopon = False
 			driver.close()
 			sys.exit(0)
-			quit()
 		else:
 			print("Running Again!")
 			print()
