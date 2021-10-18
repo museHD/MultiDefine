@@ -25,6 +25,11 @@ Simply enter words separated by commas into the program and it will return the l
 
 Note: Part of the program is still quite unstable and may not always give the most relevant definition
 
+## Contributing
+Please feel free to raise issues and suggest changes to the project. We are always looking for improvements!
+Please make sure that any pull requests are made to the `development` branch as these changes will later be merged to master once the `development` branch is stable.
+Thank you!
+
 ## Dependencies:
 The program uses the following libraries:
 <a href="https://github.com/SeleniumHQ/selenium">Selenium</a>, <a href="https://github.com/pwaller/pyfiglet">PyFiglet</a>
