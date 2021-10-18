@@ -171,7 +171,7 @@ def get_ans():
 
 def main():
 	loopon = True
-	while loopon == True:
+	while loopon is True:
 		global queries
 		words = input("Enter words separated by commas: ")
 		#Trying to fix user input and removing newliens so that it doesn't break
@@ -194,7 +194,6 @@ def main():
 			loopon = False
 			driver.close()
 			sys.exit(0)
-			quit()
 		else:
 			print("Running Again!")
 			print()
