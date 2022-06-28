@@ -2,7 +2,7 @@ import pyfiglet
 
 # INFO
 print("---------------------------------------------------------------------------------------------------------------------------------")
-print(pyfiglet.figlet_format("Multi\n Define"))
+print(pyfiglet.figlet_format("Multi\nDefine"))
 print("---------------------------------------------------------------------------------------------------------------------------------")
 print("- Enter a list of words and this program will return their definitions from Google, Oxford or Wikipedia - Whichever \nis available(in that order)")
 print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs :)")
