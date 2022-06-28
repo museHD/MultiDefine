@@ -2,7 +2,7 @@ import pyfiglet
 
 # INFO
 print("---------------------------------------------------------------------------------------------------------------------------------")
-print(pyfiglet.figlet_format("Vocab List \n Generator"))
+print(pyfiglet.figlet_format("Multi\n Define"))
 print("---------------------------------------------------------------------------------------------------------------------------------")
 print("- Enter a list of words and this program will return their definitions from Google, Oxford or Wikipedia - Whichever \nis available(in that order)")
 print("- As this program is still in alpha, the software might not be stable. Please contact the developer if you face any bugs :)")
@@ -10,7 +10,7 @@ print()
 print("Alpha version 0.2.5")
 print("This version now comes with an update feature that automatically updates chromedriver to the latest version.")
 print()
-print("Developled by museHD @ https://github.com/musehd/vocab-list-gen")
+print("Developled by museHD @ https://github.com/musehd/MultiDefine")
 print("---------------------------------------------------------------------------------------------------------------------------------")
 print("Loading Browser...Please wait")
 print()
