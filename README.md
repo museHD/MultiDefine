@@ -1,4 +1,19 @@
-<h1 align="center">MultiDefine</h1>
+<div align="center">
+
+  <img src="https://user-images.githubusercontent.com/57558058/177026876-5996b9f9-77b2-4929-a84e-7ddfc555b00c.png" alt="Logo" width="150">
+
+
+  <h3 align="center">MultiDefine</h3>
+
+  <p align="center">
+    Compiles the definitions of multiple words into a single defintions list.
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+  </p>
+</div>
+
 
 ## About the Project:
 📝This program queries Google, WikiPedia and Oxford Dictionary for the definitions of multiple words and compiles these definitions into a single list of definitions.
@@ -51,7 +66,7 @@ The program uses the following libraries:
 <br>
 The libraries have been taken care of in the <a href="https://github.com/museHD/Vocab-List-Gen/releases">exe release</a>
 <br><br>
-All users need to have the **matching/compatible** versions of Google Chrome and [Chromedriver](https://chromedriver.chromium.org/). If you are facing issues, make sure that the chromedriver.exe file is in the same directory as the application.
+All users need to have the <em>matching/compatible</em> versions of Google Chrome and [Chromedriver](https://chromedriver.chromium.org/). If you are facing issues, make sure that the chromedriver.exe file is in the same directory as the application.
 Eg. If you have Chrome 86, download the ChromeDriver v86 from the above link and place the exe in the same directory as this program.
 <br>
 <br>
